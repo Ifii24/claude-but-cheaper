@@ -1,3 +1,5 @@
+# With token streaming
+
 import chainlit as cl
 from ctransformers import AutoModelForCausalLM
 
@@ -18,16 +20,16 @@ async def on_message(message: cl.Message):
     await msg.send()
 
     prompt = get_prompt(message.content)
+
     for word in llm(prompt, stream=True):
         await msg.stream_token(word)
-    await msg.update()
+        await msg.update()
 
 
 @cl.on_chat_start
-async def on_chat_start():
+def on_chat_start():
     global llm
-
     llm = AutoModelForCausalLM.from_pretrained(
-        "zoltanctoth/orca_mini_3B-GGUF", model_file="orca-mini-3b.q4_0.gguf"
+        "zoltanctoth/orca_mini_3B-GGUF", model_file="orca-mini-3b.q4_0.gguf",
     )
-    await cl.Message("Model initialized. How can I help you?").send()
+    print("A new chat session has started!")

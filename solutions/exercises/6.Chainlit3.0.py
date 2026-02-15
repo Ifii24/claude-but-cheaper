@@ -1,3 +1,5 @@
+# With conversational history (Chainlit + ctransformers)
+
 import chainlit as cl
 from ctransformers import AutoModelForCausalLM
 
